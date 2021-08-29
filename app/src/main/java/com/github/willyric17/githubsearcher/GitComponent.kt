@@ -1,5 +1,7 @@
 package com.github.willyric17.githubsearcher
 
+import com.github.willyric17.githubsearcher.user.UserActivity
+import com.github.willyric17.githubsearcher.user.UserModule
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -14,12 +16,13 @@ import javax.inject.Scope
 @GitScope
 @Component(
     modules = [
-        GitModule::class
+        GitModule::class,
+        UserModule::class
     ]
 )
 interface GitComponent {
 
-    fun getRetrofit(): Retrofit
+    fun inject(activity: UserActivity)
 
     companion object {
         val component: GitComponent by lazy {
@@ -28,7 +31,7 @@ interface GitComponent {
         }
 
         fun inject(injector: (GitComponent) -> Unit) {
-
+            injector(component)
         }
     }
 }

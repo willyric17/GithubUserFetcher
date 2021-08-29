@@ -1,12 +1,14 @@
 package com.github.willyric17.githubsearcher.splash
 
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.willyric17.githubsearcher.R
 import com.github.willyric17.githubsearcher.databinding.ActivitySplashBinding
 import com.github.willyric17.githubsearcher.load
+import com.github.willyric17.githubsearcher.user.UserActivity
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -31,6 +33,7 @@ class SplashActivity : AppCompatActivity() {
         splashTimer = Completable.timer(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
                 binding.image.apply {
                     load(R.mipmap.octocat)
                     startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in))
@@ -39,7 +42,13 @@ class SplashActivity : AppCompatActivity() {
             .delay(2, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Toast.makeText(this, "DONE", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, UserActivity::class.java))
+                finish()
             }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        splashTimer.dispose()
     }
 }
