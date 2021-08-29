@@ -1,0 +1,11 @@
+dependencies {
+  def retrofit_version = '2.7.2'
+  def okhttp_version = '3.14.9'
+
+  implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+  implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+  implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofit_version") {
+    exclude group: "io.reactivex.rxjava2"
+  }
+  implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+}
