@@ -6,6 +6,7 @@ import com.github.willyric17.githubsearcher.user.repository.UserEntity
 import com.github.willyric17.githubsearcher.user.repository.UserRepository
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
@@ -18,7 +19,9 @@ class UserViewModel(
 
     private val pageState = PublishSubject.create<Int>()
 
-    val usersSubject: Observable<List<UserEntity>> =
+    val usersSubject = BehaviorSubject.create<List<UserEntity>>()
+
+    init {
         Observable.combineLatest(
             keywordState.distinctUntilChanged(),
             pageState.scan { prev, current ->
@@ -44,7 +47,8 @@ class UserViewModel(
                     current
                 }
             }.map { it.second }
-            .share()
+            .subscribe(usersSubject)
+    }
 
     fun setKeyword(keyword: String) {
         keywordState.onNext(keyword)
