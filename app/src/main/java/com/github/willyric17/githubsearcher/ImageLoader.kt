@@ -9,3 +9,9 @@ fun ImageView.load(@DrawableRes resId: Int) {
         .load(resId)
         .into(this)
 }
+
+fun ImageView.load(url: String) {
+    Glide.with(this)
+        .load(url)
+        .into(this)
+}
