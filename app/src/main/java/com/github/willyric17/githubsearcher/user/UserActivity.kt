@@ -75,7 +75,9 @@ class UserActivity:AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    if (it.size == adapter.itemCount) {
+                    if (it.isEmpty()) {
+                        Toast.makeText(this, "No result found", Toast.LENGTH_SHORT).show()
+                    } else if (it.size == adapter.itemCount) {
                         Toast.makeText(this, "End of result", Toast.LENGTH_SHORT).show()
                     } else {
                         adapter.items.apply {
