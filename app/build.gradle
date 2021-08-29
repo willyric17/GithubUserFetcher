@@ -1,13 +1,8 @@
 apply plugin: 'com.android.application'
 
-def Properties tokenProp = new Properties()
-tokenProp.load(new FileInputStream(file("$rootDir/token.properties")))
-
 android {
     defaultConfig {
         applicationId "com.github.willyric17.githubsearcher"
-
-        buildConfigField "String", "TOKEN", "\"${tokenProp['app.token']}\""
     }
     buildTypes {
         release {
